@@ -53,9 +53,13 @@ class ClassifyRepositoryImpl implements ClassifyRepository {
 
         for (final r in results) {
           final l = r.label.toLowerCase();
-          if (l.contains('avoid') || l.contains('rotten')) avoid = r.score;
-          else if (l.contains('okay') || l.contains('stale')) okay = r.score;
-          else fresh = r.score;
+          if (l.contains('avoid') || l.contains('rotten')) {
+            avoid = r.score;
+          } else if (l.contains('okay') || l.contains('stale')) {
+            okay = r.score;
+          } else {
+            fresh = r.score;
+          }
         }
 
         return Right(FreshnessResult(
