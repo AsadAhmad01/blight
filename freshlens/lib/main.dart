@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'app.dart';
+import 'core/di/injection.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // await configureDependencies(); // get_it setup (stub for now)
+  await configureDependencies();
   runApp(const FreshLensApp());
 }
