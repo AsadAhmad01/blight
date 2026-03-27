@@ -7,6 +7,7 @@ import 'package:permission_handler/permission_handler.dart';
 
 import '../../../../core/di/injection.dart';
 import '../bloc/classify_bloc.dart';
+import '../widgets/animated_scan_button.dart';
 import '../widgets/camera_loading_overlay.dart';
 import '../widgets/permission_denied_widget.dart';
 
@@ -129,9 +130,8 @@ class _CameraPageState extends State<CameraPage> {
                       left: 0,
                       right: 0,
                       child: Center(
-                        child: FloatingActionButton.large(
+                        child: AnimatedScanButton(
                           onPressed: () => _takePhoto(context),
-                          child: const Icon(Icons.camera_alt),
                         ),
                       ),
                     )
