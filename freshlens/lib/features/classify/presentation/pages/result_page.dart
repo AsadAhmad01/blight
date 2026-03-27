@@ -2,6 +2,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:share_plus/share_plus.dart';
 
+import '../../../../core/di/injection.dart';
+import '../../../history/presentation/bloc/history_bloc.dart';
 import '../../domain/entities/freshness_result.dart';
 import '../widgets/confidence_bars.dart';
 import '../widgets/verdict_card.dart';
@@ -72,8 +74,17 @@ class ResultPage extends StatelessWidget {
                     children: [
                       ElevatedButton.icon(
                         onPressed: () {
+                          getIt<HistoryBloc>().add(HistoryEvent.addScan(
+                            imagePath: fresResult.imagePath,
+                            verdict: fresResult.verdict.name,
+                            freshScore: fresResult.freshScore,
+                            okayScore: fresResult.okayScore,
+                            avoidScore: fresResult.avoidScore,
+                            foodCategory: fresResult.foodCategory,
+                            createdAt: fresResult.classifiedAt,
+                          ));
                           ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text('Saved to history! (Coming soon)')),
+                            const SnackBar(content: Text('Saved to history!')),
                           );
                         },
                         icon: const Icon(Icons.save),

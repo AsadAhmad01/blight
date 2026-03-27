@@ -27,6 +27,10 @@ import 'package:freshlens/features/classify/presentation/bloc/classify_bloc.dart
     as _i702;
 import 'package:freshlens/features/history/data/datasources/app_database.dart'
     as _i868;
+import 'package:freshlens/features/history/data/repositories/history_repository.dart'
+    as _i265;
+import 'package:freshlens/features/history/presentation/bloc/history_bloc.dart'
+    as _i778;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 
@@ -47,10 +51,14 @@ extension GetItInjectableX on _i174.GetIt {
         () => registerModule.secureStorage);
     gh.singleton<_i868.AppDatabase>(() => _i868.AppDatabase());
     gh.lazySingleton<_i484.TFLiteClassifier>(() => _i484.TFLiteClassifier());
+    gh.lazySingleton<_i265.HistoryRepository>(
+        () => _i265.HistoryRepository(gh<_i868.AppDatabase>()));
     gh.lazySingleton<_i899.NetworkInfo>(
         () => _i899.NetworkInfoImpl(gh<_i895.Connectivity>()));
     gh.singleton<_i361.Dio>(
         () => registerModule.dio(gh<_i558.FlutterSecureStorage>()));
+    gh.factory<_i778.HistoryBloc>(
+        () => _i778.HistoryBloc(gh<_i265.HistoryRepository>()));
     gh.lazySingleton<_i755.CloudClassifyService>(
         () => _i755.CloudClassifyServiceImpl(gh<_i361.Dio>()));
     gh.lazySingleton<_i101.ClassifyRepository>(
