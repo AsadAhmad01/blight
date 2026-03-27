@@ -25,6 +25,8 @@ import 'package:freshlens/features/classify/domain/usecases/classify_food_usecas
     as _i977;
 import 'package:freshlens/features/classify/presentation/bloc/classify_bloc.dart'
     as _i702;
+import 'package:freshlens/features/history/data/datasources/app_database.dart'
+    as _i868;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 
@@ -43,6 +45,7 @@ extension GetItInjectableX on _i174.GetIt {
     gh.singleton<_i895.Connectivity>(() => registerModule.connectivity);
     gh.singleton<_i558.FlutterSecureStorage>(
         () => registerModule.secureStorage);
+    gh.singleton<_i868.AppDatabase>(() => _i868.AppDatabase());
     gh.lazySingleton<_i484.TFLiteClassifier>(() => _i484.TFLiteClassifier());
     gh.lazySingleton<_i899.NetworkInfo>(
         () => _i899.NetworkInfoImpl(gh<_i895.Connectivity>()));
