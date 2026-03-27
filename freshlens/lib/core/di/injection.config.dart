@@ -17,10 +17,14 @@ import 'package:freshlens/features/classify/data/datasources/cloud_classify_serv
     as _i755;
 import 'package:freshlens/features/classify/data/datasources/tflite_classifier.dart'
     as _i484;
+import 'package:freshlens/features/classify/data/repositories/classify_repository_impl.dart'
+    as _i194;
 import 'package:freshlens/features/classify/domain/repositories/classify_repository.dart'
     as _i101;
 import 'package:freshlens/features/classify/domain/usecases/classify_food_usecase.dart'
     as _i977;
+import 'package:freshlens/features/classify/presentation/bloc/classify_bloc.dart'
+    as _i702;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 
@@ -44,10 +48,18 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i899.NetworkInfoImpl(gh<_i895.Connectivity>()));
     gh.singleton<_i361.Dio>(
         () => registerModule.dio(gh<_i558.FlutterSecureStorage>()));
-    gh.factory<_i977.ClassifyFoodUseCase>(
-        () => _i977.ClassifyFoodUseCase(gh<_i101.ClassifyRepository>()));
     gh.lazySingleton<_i755.CloudClassifyService>(
         () => _i755.CloudClassifyServiceImpl(gh<_i361.Dio>()));
+    gh.lazySingleton<_i101.ClassifyRepository>(
+        () => _i194.ClassifyRepositoryImpl(
+              gh<_i484.TFLiteClassifier>(),
+              gh<_i755.CloudClassifyService>(),
+              gh<_i899.NetworkInfo>(),
+            ));
+    gh.factory<_i977.ClassifyFoodUseCase>(
+        () => _i977.ClassifyFoodUseCase(gh<_i101.ClassifyRepository>()));
+    gh.factory<_i702.ClassifyBloc>(
+        () => _i702.ClassifyBloc(gh<_i977.ClassifyFoodUseCase>()));
     return this;
   }
 }
