@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:injectable/injectable.dart';
 
@@ -15,11 +16,13 @@ class ClassifyRepositoryImpl implements ClassifyRepository {
   final TFLiteClassifier _tflite;
   final CloudClassifyService _cloudService;
   final NetworkInfo _networkInfo;
+  final FlutterSecureStorage _storage;
 
   ClassifyRepositoryImpl(
     this._tflite,
     this._cloudService,
     this._networkInfo,
+    this._storage,
   );
 
   @override
@@ -27,7 +30,10 @@ class ClassifyRepositoryImpl implements ClassifyRepository {
     try {
       final localResult = _tflite.classify(imagePath);
 
-      if (localResult.confidence < 0.60 && await _networkInfo.isConnected) {
+      final useCloudStr = await _storage.read(key: 'use_cloud_ai');
+      final overrideCloud = useCloudStr == 'true';
+
+      if ((overrideCloud || localResult.confidence < 0.60) && await _networkInfo.isConnected) {
         return await _classifyViaCloud(imagePath, localResult.toEntity(imagePath));
       }
 

@@ -31,6 +31,8 @@ import 'package:freshlens/features/history/data/repositories/history_repository.
     as _i265;
 import 'package:freshlens/features/history/presentation/bloc/history_bloc.dart'
     as _i778;
+import 'package:freshlens/features/settings/presentation/cubit/settings_cubit.dart'
+    as _i404;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 
@@ -55,6 +57,8 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i265.HistoryRepository(gh<_i868.AppDatabase>()));
     gh.lazySingleton<_i899.NetworkInfo>(
         () => _i899.NetworkInfoImpl(gh<_i895.Connectivity>()));
+    gh.factory<_i404.SettingsCubit>(
+        () => _i404.SettingsCubit(gh<_i558.FlutterSecureStorage>()));
     gh.singleton<_i361.Dio>(
         () => registerModule.dio(gh<_i558.FlutterSecureStorage>()));
     gh.factory<_i778.HistoryBloc>(
@@ -66,6 +70,7 @@ extension GetItInjectableX on _i174.GetIt {
               gh<_i484.TFLiteClassifier>(),
               gh<_i755.CloudClassifyService>(),
               gh<_i899.NetworkInfo>(),
+              gh<_i558.FlutterSecureStorage>(),
             ));
     gh.factory<_i977.ClassifyFoodUseCase>(
         () => _i977.ClassifyFoodUseCase(gh<_i101.ClassifyRepository>()));
