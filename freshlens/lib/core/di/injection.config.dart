@@ -31,6 +31,8 @@ import 'package:freshlens/features/history/data/repositories/history_repository.
     as _i265;
 import 'package:freshlens/features/history/presentation/bloc/history_bloc.dart'
     as _i778;
+import 'package:freshlens/features/settings/data/datasources/notification_service.dart'
+    as _i532;
 import 'package:freshlens/features/settings/presentation/cubit/settings_cubit.dart'
     as _i404;
 import 'package:get_it/get_it.dart' as _i174;
@@ -53,6 +55,8 @@ extension GetItInjectableX on _i174.GetIt {
         () => registerModule.secureStorage);
     gh.singleton<_i868.AppDatabase>(() => _i868.AppDatabase());
     gh.lazySingleton<_i484.TFLiteClassifier>(() => _i484.TFLiteClassifier());
+    gh.lazySingleton<_i532.NotificationService>(
+        () => _i532.NotificationService());
     gh.lazySingleton<_i265.HistoryRepository>(
         () => _i265.HistoryRepository(gh<_i868.AppDatabase>()));
     gh.lazySingleton<_i899.NetworkInfo>(
