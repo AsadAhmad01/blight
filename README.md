@@ -111,7 +111,7 @@ dart run build_runner build --delete-conflicting-outputs
 flutter run
 ```
 
-> **Note:** A pre-built `freshlens.tflite` model is already bundled in `assets/models/`. No additional model download required.
+> **Note:** A pre-built `blight.tflite` model is already bundled in `assets/models/`. No additional model download required.
 
 ---
 
