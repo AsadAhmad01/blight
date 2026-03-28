@@ -28,12 +28,16 @@ class ClassifyRepositoryImpl implements ClassifyRepository {
   @override
   Future<Either<Failure, FreshnessResult>> classifyImage(String imagePath) async {
     try {
-      final localResult = _tflite.classify(imagePath);
-
       final useCloudStr = await _storage.read(key: 'use_cloud_ai');
       final overrideCloud = useCloudStr == 'true';
 
-      if ((overrideCloud || localResult.confidence < 0.60) && await _networkInfo.isConnected) {
+      if (overrideCloud || !_tflite.isAvailable) {
+        return await _classifyViaCloud(imagePath, _getDummyResult(imagePath));
+      }
+
+      final localResult = await _tflite.classify(imagePath);
+
+      if (localResult.confidence < 0.60 && await _networkInfo.isConnected) {
         return await _classifyViaCloud(imagePath, localResult.toEntity(imagePath));
       }
 
@@ -43,6 +47,18 @@ class ClassifyRepositoryImpl implements ClassifyRepository {
     } catch (e) {
       return Left(UnknownFailure(e.toString()));
     }
+  }
+
+  FreshnessResult _getDummyResult(String imagePath) {
+    return FreshnessResult(
+      verdict: FreshnessVerdict.fresh,
+      freshScore: 0.0,
+      okayScore: 0.0,
+      avoidScore: 0.0,
+      foodCategory: 'Unknown',
+      imagePath: imagePath,
+      classifiedAt: DateTime.now(),
+    );
   }
 
   Future<Either<Failure, FreshnessResult>> _classifyViaCloud(String imagePath, FreshnessResult fallback) async {

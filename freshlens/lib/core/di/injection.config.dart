@@ -54,6 +54,8 @@ extension GetItInjectableX on _i174.GetIt {
     gh.singleton<_i558.FlutterSecureStorage>(
         () => registerModule.secureStorage);
     gh.singleton<_i868.AppDatabase>(() => _i868.AppDatabase());
+    gh.lazySingleton<_i532.NotificationService>(
+        () => _i532.NotificationService());
     gh.lazySingleton<_i484.TFLiteClassifier>(() => _i484.TFLiteClassifier());
     gh.lazySingleton<_i532.NotificationService>(
         () => _i532.NotificationService());
