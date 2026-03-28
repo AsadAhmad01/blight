@@ -3,12 +3,14 @@ import 'app.dart';
 import 'core/di/injection.dart';
 import 'features/settings/data/datasources/background_worker.dart';
 import 'features/settings/data/datasources/notification_service.dart';
+import 'features/classify/data/datasources/tflite_classifier.dart';
 
 void main() async {
   try {
     WidgetsFlutterBinding.ensureInitialized();
     await configureDependencies();
     await getIt<NotificationService>().initialize();
+    await getIt<TFLiteClassifier>().initialize();
     await BackgroundWorker.initialize();
     runApp(const FreshLensApp());
   } catch (e, stack) {

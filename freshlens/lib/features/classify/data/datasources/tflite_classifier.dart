@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:injectable/injectable.dart';
 import 'package:tflite_flutter/tflite_flutter.dart';
@@ -9,32 +10,43 @@ import '../models/freshness_result_model.dart';
 class TFLiteClassifier {
   Interpreter? _interpreter;
   List<String> _labels = [];
+  bool isAvailable = false;
 
   Future<void> initialize() async {
     try {
       _interpreter = await Interpreter.fromAsset('assets/models/freshlens.tflite');
       final labelsData = await rootBundle.loadString('assets/models/labels.txt');
       _labels = labelsData.split('\n').map((e) => e.trim()).where((e) => e.isNotEmpty).toList();
+      isAvailable = true;
     } catch (e) {
-      // Ignore missing model for now
+      isAvailable = false;
+      debugPrint('TFLite Initialization (Graceful Fallback): $e');
     }
   }
 
-  FreshnessResultModel classify(String imagePath) {
-    if (_interpreter == null) {
-      throw Exception('Interpreter not initialized');
+  Future<FreshnessResultModel> classify(String imagePath) async {
+    if (!isAvailable || _interpreter == null) {
+      return FreshnessResultModel(
+        verdict: FreshnessVerdict.fresh,
+        freshScore: 0.0,
+        okayScore: 0.0,
+        avoidScore: 0.0,
+        foodCategory: 'Unknown (Local model unavailable)',
+        imagePath: imagePath,
+        classifiedAt: DateTime.now(),
+      );
     }
 
-    final image = loadImageFromPath(imagePath);
-    if (image == null) throw Exception('Failed to load image');
-
-    final resized = resizeImage(image, 224, 224);
-    final inputBytes = imageToFloat32List(resized);
+    final sw = Stopwatch()..start();
+    
+    final inputBytes = await compute(preprocessImageForTFLite, imagePath);
+    final preprocessTime = sw.elapsedMilliseconds;
 
     final input = inputBytes.reshape([1, 224, 224, 3]);
     final output = List.filled(1 * _labels.length, 0.0).reshape([1, _labels.length]);
 
     _interpreter!.run(input, output);
+    final inferenceTime = sw.elapsedMilliseconds - preprocessTime;
 
     final results = output[0] as List<double>;
     
@@ -46,6 +58,8 @@ class TFLiteClassifier {
         maxIndex = i;
       }
     }
+
+    debugPrint('ML Performance: Preprocess (Isolate): ${preprocessTime}ms, Inference: ${inferenceTime}ms');
 
     final topLabel = _labels.isNotEmpty && maxIndex < _labels.length ? _labels[maxIndex] : "Unknown";
     final verdict = _mapLabelToVerdict(topLabel);
