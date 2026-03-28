@@ -5,13 +5,13 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:mocktail/mocktail.dart';
 
-import 'package:freshlens/core/network/network_info.dart';
-import 'package:freshlens/features/classify/data/datasources/cloud_classify_service.dart';
-import 'package:freshlens/features/classify/data/datasources/tflite_classifier.dart';
-import 'package:freshlens/features/classify/data/models/freshness_result_model.dart';
-import 'package:freshlens/features/classify/data/models/hugging_face_response.dart';
-import 'package:freshlens/features/classify/data/repositories/classify_repository_impl.dart';
-import 'package:freshlens/features/classify/domain/entities/freshness_result.dart';
+import 'package:blight/core/network/network_info.dart';
+import 'package:blight/features/classify/data/datasources/cloud_classify_service.dart';
+import 'package:blight/features/classify/data/datasources/tflite_classifier.dart';
+import 'package:blight/features/classify/data/models/freshness_result_model.dart';
+import 'package:blight/features/classify/data/models/hugging_face_response.dart';
+import 'package:blight/features/classify/data/repositories/classify_repository_impl.dart';
+import 'package:blight/features/classify/domain/entities/freshness_result.dart';
 
 // ──────────────────────────────────────────────
 // Mocks

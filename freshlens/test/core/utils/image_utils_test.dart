@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:image/image.dart' as img;
-import 'package:freshlens/core/utils/image_utils.dart';
+import 'package:blight/core/utils/image_utils.dart';
 
 void main() {
   group('imageToFloat32List', () {

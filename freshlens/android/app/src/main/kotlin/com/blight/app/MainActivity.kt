@@ -1,4 +1,4 @@
-package com.freshlens.freshlens
+package com.blight.app
 
 import io.flutter.embedding.android.FlutterActivity
 

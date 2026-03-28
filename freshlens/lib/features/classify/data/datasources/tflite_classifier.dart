@@ -14,7 +14,7 @@ class TFLiteClassifier {
 
   Future<void> initialize() async {
     try {
-      _interpreter = await Interpreter.fromAsset('assets/models/freshlens.tflite');
+      _interpreter = await Interpreter.fromAsset('assets/models/blight.tflite');
       final labelsData = await rootBundle.loadString('assets/models/labels.txt');
       _labels = labelsData.split('\n').map((e) => e.trim()).where((e) => e.isNotEmpty).toList();
       isAvailable = true;

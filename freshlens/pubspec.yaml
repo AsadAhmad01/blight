@@ -1,4 +1,4 @@
-name: freshlens
+name: blight
 description: Food freshness classifier — on-device ML with cloud fallback
 publish_to: 'none'
 version: 1.0.0+1

@@ -3,10 +3,10 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:mocktail/mocktail.dart';
 
-import 'package:freshlens/core/error/failures.dart';
-import 'package:freshlens/features/classify/domain/entities/freshness_result.dart';
-import 'package:freshlens/features/classify/domain/usecases/classify_food_usecase.dart';
-import 'package:freshlens/features/classify/presentation/bloc/classify_bloc.dart';
+import 'package:blight/core/error/failures.dart';
+import 'package:blight/features/classify/domain/entities/freshness_result.dart';
+import 'package:blight/features/classify/domain/usecases/classify_food_usecase.dart';
+import 'package:blight/features/classify/presentation/bloc/classify_bloc.dart';
 
 // ──────────────────────────────────────────────
 // Mocks

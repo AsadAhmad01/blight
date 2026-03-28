@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:freshlens/features/classify/domain/entities/freshness_result.dart';
+import 'package:blight/features/classify/domain/entities/freshness_result.dart';
 
 FreshnessResult _makeResult({
   required FreshnessVerdict verdict,
